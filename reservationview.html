@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery.js"></script>
+
+    <title>Restaurant</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Gabi's Restaurant</h1>
+            <p>Current Reservations and Waiting List</p>
+
+            <a class="btn btn-primary btn-lg" href="/makereservation" role="button">Make Reservation</a>
+
+            <a class="btn btn-primary btn-lg" href="/home" role="button">
+                <span class="glyphicon glyphicon-home"></span>
+            </a>
+
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Current Reservations</div>
+            <div class="panel-body">
+                <div id="reservationList"></div>
+            </div>
+
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Waiting List</div>
+            <div class="panel-body">
+                <div id="waitList">
+                </div>
+            </div>
+        </div>
+
+        <a href="#" id="clearTable"> Clear Table</a>
+        <a href="/api/reservations">API Table Link</a>
+        <a href="/api/waitinglist"> API Wait List</a>
+    </div>
+
+    <script type="text/javascript">
+
+        function showReservations() {
+
+            $.get("/api/reservations/", function (data) {
+                console.log(data)
+
+                for (var i = 0; i < data.length; i++) {
+                    var reserv = $("<div>");
+                    reserv.addClass("well");
+                    reserv.text(data[i].uniqueId);
+                    $("#reservationList").append(reserv);
+                }
+            })
+
+            $.get("/api/waitinglist/", function (data) {
+                console.log(data)
+
+                for (var j = 0; j < data.length; j++) {
+                    var wait = $("<div>");
+                    wait.addClass("well");
+                    wait.text(data[j].uniqueId);
+                    $("#waitList").append(wait);
+                }
+            })
+        }
+        showReservations()
+
+    
+    </script>
+
+
+</body>
+
+</html>
